@@ -4,41 +4,77 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
     //
-    public function store(Request $request){
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|unique:table_user',
-            'password' => 'required|string|min:5|max:12',
-            'phone' => 'required|string|min:10|max:13',
-            'address' => 'required|string',
-            'occupation' => 'required|string'
-        ]);
+    public function store(Request $request)
+    {
+        try {
+            $request->validate([
+                'name' => 'required|string',
+                'email' => 'required|email|unique:table_user',
+                'password' => 'required|string|min:5|max:12',
+                'phone' => 'required|string|min:10|max:13',
+                'address' => 'required|string',
+                'occupation' => 'required|string'
+            ]);
 
-        $data = [
-            'id' => Str::uuid(),
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'phone' => $request->phone,
-            'address' => $request->address,
-            'occupation' => $request->occupation
-        ];
+            $data = [
+                'id' => Str::uuid(),
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'occupation' => $request->occupation
+            ];
 
-        $user = User::create($data);
+            $user = User::create($data);
 
-        return response()->json([
-            'message' => 'Successfully created user!',
-            'user' => $user
-        ], 201);
+            return response()->json([
+                'message' => 'Successfully created user!',
+                'user' => $user
+            ], 201);
+        } catch (\Throwable $th) {
+            // return error message to view register
+            return redirect()->back()->with('error', "failed register user because {$th->getMessage()}");
+        }
     }
 
-    public function registerForm(){
+    public function login(Request $request){
+        try {
+            $request->validate([
+                'email' => 'required|email',
+                'password' => 'required|string|min:5|max:12'
+            ]);
+
+            $user = User::where('email', $request->email)->first();
+
+            if(!$user){
+                return redirect()->back()->with('error', 'email not found');
+            }
+
+            if(Auth::attempt(['email' => $request->email, 'password' => $request->password], true)){
+                return redirect()->back()->with('success', 'login success');
+            }
+
+            return redirect()->back()->with('success', 'login success');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', "failed login user because {$th->getMessage()}");
+        }
+    }
+
+    public function registerForm()
+    {
         return view('user.register');
+    }
+
+    public function loginForm()
+    {
+        return view('user.login');
     }
 }

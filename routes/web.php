@@ -19,3 +19,14 @@ Route::get('/', function () {
 
 Route::post('/user/register', 'App\Http\Controllers\UserController@store');
 Route::get('/user/register', 'App\Http\Controllers\UserController@registerForm');
+Route::get('/user/login', 'App\Http\Controllers\UserController@loginForm');
+
+
+Route::get('/home', 'App\Http\Controllers\HomeController@index');
+
+
+
+
+//Dummy Admin
+Route::post('/goods', 'App\Http\Controllers\GoodsController@store');
+Route::get('/goods', 'App\Http\Controllers\GoodsController@formStore');
