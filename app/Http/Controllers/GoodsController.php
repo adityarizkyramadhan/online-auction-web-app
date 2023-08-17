@@ -43,6 +43,22 @@ class GoodsController extends Controller
         }
     }
 
+    public function getById(Request $request){
+        try {
+            // $id = $request->get('id');
+            // $item = Goods::find($id);
+            // if (!$item){
+            //     return redirect()->back()->with('error', "failed get goods because data not found");
+            // }
+            return view('goods.detail'/*, compact($item)*/);
+        }catch (\Throwable $th) {
+            // return error message to view register
+            return redirect()->back()->with('error', "failed get goods because {$th->getMessage()}");
+        }
+
+
+    }
+
     public function formStore()
     {
         return view('goods.insert');
