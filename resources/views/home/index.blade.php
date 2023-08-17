@@ -8,11 +8,35 @@
     <!-- Include Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 72vh;
+            margin-bottom: auto;
+        }
+
+        .footer {
+            height: 60px;
+            /* Set the height of your footer */
+            background-color: #333;
+            color: #fff;
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body>
     @include('common.navbar')
-    <section class="container my-5">
+    @include('common.error')
+    <section class="container my-5 wrapper">
         <div class="row justify-content-center">
             @foreach ($items as $item)
                 <div class="col-md-4">
@@ -21,7 +45,7 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ $item->name }}</h5>
                             <p class="card-text">Starting Bid: {{ $item->price }}</p>
-                            <button class="btn btn-primary">Place Bid</button>
+                            <a href="/goods/detail/{{ $item->id }}" class="btn btn-primary">Bid Now</a>
                         </div>
                     </div>
                 </div>

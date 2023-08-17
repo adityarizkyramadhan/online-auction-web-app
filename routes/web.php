@@ -25,8 +25,7 @@ Route::get('/user/login', 'App\Http\Controllers\UserController@loginForm');
 Route::get('/home', 'App\Http\Controllers\HomeController@index');
 
 
-Route::get('/goods/detail', 'App\Http\Controllers\GoodsController@getById');
-
+Route::get('/goods/detail/{id}', 'App\Http\Controllers\GoodsController@getById');
 
 //Dummy Admin
 Route::post('/goods', 'App\Http\Controllers\GoodsController@store');

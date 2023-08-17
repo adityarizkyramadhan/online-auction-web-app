@@ -17,6 +17,21 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $casts = [
+        'id' => 'string'
+    ];
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'id',
         'name',

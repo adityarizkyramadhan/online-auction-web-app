@@ -38,21 +38,19 @@ class GoodsController extends Controller
                 'goods' => $goods
             ], 201);
         } catch (\Throwable $th) {
-            // return error message to view register
             return redirect()->back()->with('error', "failed create goods because {$th->getMessage()}");
         }
     }
 
     public function getById(Request $request){
         try {
-            // $id = $request->get('id');
-            // $item = Goods::find($id);
-            // if (!$item){
-            //     return redirect()->back()->with('error', "failed get goods because data not found");
-            // }
-            return view('goods.detail'/*, compact($item)*/);
+            $id = $request->id;
+            $item = Goods::find($id);
+            if (!$item){
+                return redirect()->back()->with('error', "failed get goods because data not found");
+            }
+            return view('goods.detail', compact('item'));
         }catch (\Throwable $th) {
-            // return error message to view register
             return redirect()->back()->with('error', "failed get goods because {$th->getMessage()}");
         }
 

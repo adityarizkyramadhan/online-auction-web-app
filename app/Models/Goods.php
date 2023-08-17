@@ -15,6 +15,16 @@ class Goods extends Model
      *
      * @var array<int, string>
      */
+    /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $casts = [
+        'id' => 'string'
+    ];
     protected $fillable = [
         'id',
         'name',
@@ -22,5 +32,4 @@ class Goods extends Model
         'description',
         'image'
     ];
-
 }
