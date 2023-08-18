@@ -22,7 +22,7 @@
                     <div class="card-body">
                         <h2 class="card-title text-center mb-4">Login Form</h2>
                         <div class="card-body">
-                            <form>
+                            <form method="POST" action="/user/login">
                                 @csrf
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email address</label>

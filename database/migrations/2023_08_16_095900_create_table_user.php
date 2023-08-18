@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->text('address')->nullable();
             $table->string('occupation')->nullable();
+            $table->rememberToken();
             $table->timestamps();
         });
     }

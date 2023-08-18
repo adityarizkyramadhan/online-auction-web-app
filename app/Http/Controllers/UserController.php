@@ -33,19 +33,17 @@ class UserController extends Controller
                 'occupation' => $request->occupation
             ];
 
-            $user = User::create($data);
+            User::create($data);
 
-            return response()->json([
-                'message' => 'Successfully created user!',
-                'user' => $user
-            ], 201);
+            return redirect('/user/login');
         } catch (\Throwable $th) {
             // return error message to view register
             return redirect()->back()->with('error', "failed register user because {$th->getMessage()}");
         }
     }
 
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         try {
             $request->validate([
                 'email' => 'required|email',
@@ -54,15 +52,15 @@ class UserController extends Controller
 
             $user = User::where('email', $request->email)->first();
 
-            if(!$user){
+            if (!$user) {
                 return redirect()->back()->with('error', 'email not found');
             }
 
-            if(Auth::attempt(['email' => $request->email, 'password' => $request->password], true)){
-                return redirect()->back()->with('success', 'login success');
+            if (Auth::attempt(['email' => $request->email, 'password' => $request->password], true)) {
+                return redirect('/home');
             }
 
-            return redirect()->back()->with('success', 'login success');
+            return redirect()->back()->with('error', 'failed login user');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', "failed login user because {$th->getMessage()}");
         }

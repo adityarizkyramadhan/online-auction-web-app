@@ -18,14 +18,19 @@ Route::get('/', function () {
 });
 
 Route::post('/user/register', 'App\Http\Controllers\UserController@store');
+Route::post('/user/login', 'App\Http\Controllers\UserController@login');
 Route::get('/user/register', 'App\Http\Controllers\UserController@registerForm');
-Route::get('/user/login', 'App\Http\Controllers\UserController@loginForm');
+Route::get('/user/login', 'App\Http\Controllers\UserController@loginForm')->name('login');
 
 
 Route::get('/home', 'App\Http\Controllers\HomeController@index');
 
 
-Route::get('/goods/detail/{id}', 'App\Http\Controllers\GoodsController@getById');
+//Protected Route
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/goods/detail/{id}', 'App\Http\Controllers\GoodsController@getById');
+    Route::post('/bid', 'App\Http\Controllers\BidController@store');
+});
 
 //Dummy Admin
 Route::post('/goods', 'App\Http\Controllers\GoodsController@store');

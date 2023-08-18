@@ -32,4 +32,9 @@ class Goods extends Model
         'description',
         'image'
     ];
+    // one to many with bids
+    public function bids()
+    {
+        return $this->hasMany(Bid::class);
+    }
 }

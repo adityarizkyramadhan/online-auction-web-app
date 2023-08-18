@@ -39,6 +39,13 @@ class User extends Authenticatable
         'password',
         'phone',
         'address',
-        'occupation'
+        'occupation',
+        'remember_token'
     ];
+
+    // one to many with bids
+    public function bids()
+    {
+        return $this->hasMany(Bid::class);
+    }
 }

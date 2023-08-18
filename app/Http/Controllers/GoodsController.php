@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bid;
 use App\Models\Goods;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class GoodsController extends Controller
@@ -18,10 +20,10 @@ class GoodsController extends Controller
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
             ]);
 
-            $imageName = time().'.'.$request->image->extension();
+            $imageName = time() . '.' . $request->image->extension();
             $request->image->move(public_path('images'), $imageName);
 
-            $linkImage = url('/images/'.$imageName);
+            $linkImage = url('/images/' . $imageName);
 
             $data = [
                 'id' => Str::uuid(),
@@ -42,19 +44,24 @@ class GoodsController extends Controller
         }
     }
 
-    public function getById(Request $request){
+    public function getById(Request $request)
+    {
         try {
             $id = $request->id;
             $item = Goods::find($id);
-            if (!$item){
+            if (!$item) {
                 return redirect()->back()->with('error', "failed get goods because data not found");
             }
-            return view('goods.detail', compact('item'));
-        }catch (\Throwable $th) {
+            $bid = new Bid();
+            $dataArray = $bid->getDataCompleted($id);
+            $minPrice = $item->price;
+            if (count($dataArray) > 0) {
+                $minPrice = $dataArray[0]->price;
+            }
+            return view('goods.detail', compact('item', 'dataArray', 'minPrice'));
+        } catch (\Throwable $th) {
             return redirect()->back()->with('error', "failed get goods because {$th->getMessage()}");
         }
-
-
     }
 
     public function formStore()
@@ -62,4 +69,3 @@ class GoodsController extends Controller
         return view('goods.insert');
     }
 }
-
