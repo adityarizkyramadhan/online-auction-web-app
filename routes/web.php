@@ -21,7 +21,7 @@ Route::post('/user/register', 'App\Http\Controllers\UserController@store');
 Route::post('/user/login', 'App\Http\Controllers\UserController@login');
 Route::get('/user/register', 'App\Http\Controllers\UserController@registerForm');
 Route::get('/user/login', 'App\Http\Controllers\UserController@loginForm')->name('login');
-
+Route::get('/user/logout', 'App\Http\Controllers\UserController@logout');
 
 Route::get('/home', 'App\Http\Controllers\HomeController@index');
 
@@ -30,6 +30,7 @@ Route::get('/home', 'App\Http\Controllers\HomeController@index');
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/goods/detail/{id}', 'App\Http\Controllers\GoodsController@getById');
     Route::post('/bid', 'App\Http\Controllers\BidController@store');
+    Route::get('/user/profile', 'App\Http\Controllers\UserController@profile');
 });
 
 //Dummy Admin

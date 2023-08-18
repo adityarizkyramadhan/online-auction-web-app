@@ -66,6 +66,26 @@ class UserController extends Controller
         }
     }
 
+    public function logout(Request $request)
+    {
+        try {
+            Auth::logout();
+            return redirect('/user/login');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', "failed logout user because {$th->getMessage()}");
+        }
+    }
+
+    public function profile(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            return view('user.profile', compact('user'));
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', "failed get profile user because {$th->getMessage()}");
+        }
+    }
+
     public function registerForm()
     {
         return view('user.register');
