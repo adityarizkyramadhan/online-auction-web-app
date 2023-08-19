@@ -31,6 +31,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/goods/detail/{id}', 'App\Http\Controllers\GoodsController@getById');
     Route::post('/bid', 'App\Http\Controllers\BidController@store');
     Route::get('/user/profile', 'App\Http\Controllers\UserController@profile');
+    Route::get('/user/history', 'App\Http\Controllers\UserController@history');
 });
 
 //Dummy Admin

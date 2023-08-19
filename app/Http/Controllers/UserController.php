@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bid;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -83,6 +84,20 @@ class UserController extends Controller
             return view('user.profile', compact('user'));
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', "failed get profile user because {$th->getMessage()}");
+        }
+    }
+
+    public function history(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            $bid = new Bid();
+            $dataArray = $bid->getDataByIdUser($user->id);
+            // var_dump($dataArray);
+            // die();
+            return view('user.history', compact('dataArray'));
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', "failed get history bid user because {$th->getMessage()}");
         }
     }
 

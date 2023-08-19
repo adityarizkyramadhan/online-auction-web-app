@@ -45,4 +45,16 @@ class Bid extends Model
             ->get();
         return $data->toArray();
     }
+
+    public function getDataByIdUser($idUSer)
+    {
+        $data = DB::table('table_bids')
+            ->orderBy('table_bids.price', 'desc')
+            ->where('table_bids.user_id', '=', $idUSer)
+            ->join('table_goods', 'table_bids.good_id', '=', 'table_goods.id')
+            ->join('table_user', 'table_bids.user_id', '=', 'table_user.id')
+            ->select('table_bids.*', 'table_goods.name as good_name', 'table_user.name as user_name', 'table_bids.price as bid_price', 'table_goods.image as good_image')
+            ->get();
+        return $data->toArray();
+    }
 }
